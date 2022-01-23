@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>WalMart Forecasting Web App</title>
+        <meta charset="utf-8">
+        <meta name="viewport"  content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+        <script>     
+          $(document).ready(function(){
+        	var data;
+		$.ajax({
+		  type: "GET",  
+		  url: "test.csv",
+		  dataType: "text",       
+		  success: function(response)  
+		  {
+			data = $.csv.toArrays(response);
+			generateHtmlTable(data);
+		  }   
+		});
+
+		function generateHtmlTable(data) {
+		    var html = '<table  class="table table-condensed table-hover table-striped">';
+		 
+		      if(typeof(data[0]) === 'undefined') {
+			return null;
+		      } else {
+				$.each(data, function( index, row ) {
+				  //bind header
+				  if(index == 0) {
+					html += '<thead>';
+					html += '<tr>';
+					$.each(row, function( index, colData ) {
+						html += '<th>';
+						html += colData;
+						html += '</th>';
+					});
+					html += '</tr>';
+					html += '</thead>';
+					html += '<tbody>';
+				  } else {
+					html += '<tr>';
+					$.each(row, function( index, colData ) {
+						html += '<td>';
+						html += colData;
+						html += '</td>';
+					});
+					html += '</tr>';
+				  }
+				});
+				html += '</tbody>';
+				html += '</table>';
+				alert(html);
+				$('#csv-display').append(html);
+			  }
+			}	
+		});
+        </script>   
+        <script>
+         "use strict";
+         function submitForm(oFormElement) {
+             var xhr = new XMLHttpRequest();
+             xhr.onload = function() {
+                 var result = parseFloat(xhr.responseText);
+                 var resultElement = document.getElementById('result');
+                 resultElement.innerHTML = result;
+             }
+             xhr.open (oFormElement.method, oFormElement.action, true);
+             var review = document.getElementById('review');
+             xhr.send (review.value);
+             return false;
+         }
+        </script>
+
+    </head>
+    <body>
+
+        <div class="container">
+        	<h1>Demo : Reading CSV file using jQuery</h1>
+		<div id="header"></div>
+		<div class="well">
+		<div class="row" id="csv-display" style="height:500px;overflow: scroll;">
+		</div>
+		</div>
+            <h1>Walmart Forecasting</h1>
+            <p>Choose one line from test.csv to predict the demand...</p>
+            <form method="POST"
+                  action="https://a0gtjgge8j.execute-api.us-west-2.amazonaws.com/prod"
+                  onsubmit="return submitForm(this);" >                     <!-- HERE IS WHERE YOU NEED TO ENTER THE API URL -->
+                <div class="form-group">
+                    <label for="review">Line:</label>
+                    <textarea class="form-control"  rows="5" id="review">Please paste all line data here.</textarea>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <h1>Demand:</h1>
+            <h1 id="result"></h1>
+        </div>
+    </body>
+</html>
