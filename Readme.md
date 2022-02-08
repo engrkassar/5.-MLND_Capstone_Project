@@ -14,6 +14,5 @@
 <br/><a href='https://github.com/engrkassar/5.-MLND_Capstone_Project/blob/main/index.html'>index.html:</a> source code for the webapp<br/>
 <a href='https://github.com/engrkassar/5.-MLND_Capstone_Project/blob/main/lambda_function.py'>lambda_function.py</a> source code for lambda function to invoke deployed endpoint<br/>
 
-<br/>webapp running URL:<br/>
+<br/>running webapp URL:<br/>
 https://m5-forecasting-data.s3.us-west-2.amazonaws.com/index.html<br/>
-please email me to create an endpoint to try the webapp<br/>
